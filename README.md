@@ -1,1 +1,1 @@
-# SwiftLogger
+# SLoggerSwift

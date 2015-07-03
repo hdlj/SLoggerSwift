@@ -1,5 +1,10 @@
 
 language: objective-c
 
-script:
-- xcodebuild build -scheme SLoggerSwift -destination 'platform=iOS Simulator,name=iPhone 6,OS=8.1'
+before_install: 
+- brew update
+- if brew outdated | grep -qx xctool; then brew upgrade xctool; fi
+
+script: 
+- xctool clean build -project SLoggerSwift.xcodeproj -scheme SLoggerSwift
+

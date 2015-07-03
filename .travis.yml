@@ -7,4 +7,5 @@ before_install:
 
 script: 
 - xctool clean build -project SLoggerSwift.xcodeproj -scheme SLoggerSwift -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+-xctool test -project SLoggerSwift.xcworkspace -scheme SLoggerSwiftTests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
 

@@ -11,7 +11,7 @@ import XCTest
 
 class SLoggerSwiftTests: XCTestCase {
     
-    let log = XCGLogger.defaultInstance()
+    var log = XCGLogger.defaultInstance()
     let serverUrl = "http://sloggerswift.com/json"
     let bufferLimit=4
     
@@ -65,14 +65,36 @@ class SLoggerSwiftTests: XCTestCase {
         XCTAssert(logServerDestination.bufferLog.count == 1, "message added to the buffer correctly")
     }
     
-    
-    
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock() {
-            // Put the code you want to measure the time of here.
+    func testBufferSizeForServerReached(){
+        var logServerDestination:SLSServerLogDestination = SLSServerLogDestination(owner: XCGLogger(), identifier: "", url: "", bufferLimit: 0)
+        for logdestination in log.logDestinations{
+            if logdestination.identifier==XCGLogger.serverConstants.logBaseIdentifier{
+                if let logdestination = logdestination as? SLSServerLogDestination {
+                    logServerDestination=logdestination
+                }
+            }
         }
+        for i in 1...3{
+            log.debug("message "+String(i))
+        }
+        XCTAssertEqual(logServerDestination.bufferLog.count, 0, "messages added to the buffer the buffer limit reached, all the buffer is sent to the server")
     }
+    
+    func testCallProcessLogDetailsForServer(){
+        class MockSLSServerLogDestination:SLSServerLogDestination{
+            override func sendData(){
+                XCTAssertTrue(true,"message should be sent ")
+            }
+        }
+        
+        
+        let mockServer = MockSLSServerLogDestination(owner: log,identifier: "",url: "",bufferLimit: 0)
+        log.addLogDestination(mockServer)
+        log.debug("message")
+        
+    }
+    
+    
+
     
 }

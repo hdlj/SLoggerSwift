@@ -44,35 +44,37 @@ public class SLSServerLogDestination : XCGLogDestinationProtocol, DebugPrintable
             }
             
             var data=["date": formattedDate, "lineNumber":String(logDetails.lineNumber), "logLevel": logDetails.logLevel.description(), "fileName":logDetails.fileName, "functionName":logDetails.functionName, "message":logDetails.logMessage, "threadName":threadName]
-            sendData(data)
+            addData(data)
     }
     
-    private func sendData(data:[String:String]){
+    private func addData(data:[String:String]){
         bufferLog.append(data)
         if bufferLog.count >= bufferLimit{
-            let jsonDic=["data":self.bufferLog]
-            self.bufferLog=[]
-            dispatch_async(XCGLogger.serverQueue){ [weak self] in
-                if let uSelf = self{
-                    let json = NSJSONSerialization.dataWithJSONObject(jsonDic, options: NSJSONWritingOptions.allZeros, error: nil)
-                    var request = NSMutableURLRequest(URL: NSURL(string: uSelf.url)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: 5)
-                    var response: NSURLResponse?
-                    var error: NSError?
-                    
-                    
-                    request.HTTPBody = json
-                    request.HTTPMethod = "PUT"
-                    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                    
-                    // send the request
-                    NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
-                    
-                }
+            sendData()
+        }
+    }
+    
+    public func sendData(){
+        let jsonDic=["data":self.bufferLog]
+        self.bufferLog=[]
+        dispatch_async(XCGLogger.serverQueue){ [weak self] in
+            if let uSelf = self{
+                let json = NSJSONSerialization.dataWithJSONObject(jsonDic, options: NSJSONWritingOptions.allZeros, error: nil)
+                var request = NSMutableURLRequest(URL: NSURL(string: uSelf.url)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: 5)
+                var response: NSURLResponse?
+                var error: NSError?
+                
+                
+                request.HTTPBody = json
+                request.HTTPMethod = "PUT"
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                
+                // send the request
+                NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
                 
             }
             
         }
-        
     }
     
     public func processInternalLogDetails(logDetails: XCGLogDetails) {
@@ -86,7 +88,7 @@ public class SLSServerLogDestination : XCGLogDestinationProtocol, DebugPrintable
             formattedDate = dateFormatter.stringFromDate(logDetails.date)
             }
             var data=["date": formattedDate, "details": extendedDetails, "functionName": "none", "message":logDetails.logMessage]
-            sendData(data)
+            addData(data)
     }
     
     // MARK: - Misc methods

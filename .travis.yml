@@ -1,0 +1,5 @@
+
+language: objective-c
+
+script:
+- xcodebuild build -scheme SLoggerSwift/SLoggerSwift -destination 'platform=iOS Simulator,name=iPhone 6,OS=8.3'

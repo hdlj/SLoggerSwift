@@ -1,0 +1,10 @@
+framework module SLoggerSwift {
+  umbrella header "SLoggerSwift.h"
+
+  export *
+  module * { export * }
+}
+
+module SLoggerSwift.Swift {
+    header "SLoggerSwift-Swift.h"
+}

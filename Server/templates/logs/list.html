@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for log in logs %}
+    <div style="background-color:rgb(230,230,230); margin-top:2px; padding:5px;">
+      <p > {{ log.date}} || {{ log.functionName}}|| {{ log.lineNumber}} || {{ log.fileName}} || {{ log.threadName}} || {{ log.functionName}} || {{ log.logLevel}}</p>
+      <p>
+        {{log.message}}
+      </p>
+       </div>
+    {% endfor %}
+{% endblock %}

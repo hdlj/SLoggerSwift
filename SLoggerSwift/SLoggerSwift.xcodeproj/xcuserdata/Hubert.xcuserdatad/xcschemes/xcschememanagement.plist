@@ -4,6 +4,16 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>DeleteBuildDir.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+		<key>SLoggerSwift-iOS.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>SLoggerSwift.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -12,6 +22,16 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>B45066B11B468FC5003913B1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B45066B51B46913C003913B1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>B4E5E3FF1B473FCF0047336C</key>
 		<dict>
 			<key>primary</key>

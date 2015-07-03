@@ -1,5 +1,5 @@
 
-from SnipsServer import db
+from Server import db
 
 class SLog(db.Document):
     date=db.StringField()

@@ -12,7 +12,7 @@ if __name__ == '__main__':
     
 def register_blueprints(app):
     # Prevents circular imports
-    from SnipsServer.views import logs
+    from Server.views import logs
     app.register_blueprint(logs)
 
 register_blueprints(app)
@@ -21,7 +21,7 @@ register_blueprints(app)
 
 @app.route("/json", methods=['GET','POST','PUT'])
 def json():
-    from SnipsServer.models import *
+    from Server.models import *
     app.logger.debug("JSON received...")
     if request.json:
         newLogs=request.json.get("data")

@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>DC1B926F-CA42-46FE-B2C9-4167FD339258</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>SLoggerSwift</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>04B30C32883D1742C44098368BB49C5A342CFB00</key>
 		<string>https://github.com/hdlj/SLoggerSwift.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>SLoggerSwift/SLoggerSwift.xcodeproj/project.xcworkspace</string>
+	<string>SLoggerSwift/SLoggerSwift.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>04B30C32883D1742C44098368BB49C5A342CFB00</key>

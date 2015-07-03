@@ -34,7 +34,7 @@ public class SLSServerLogDestination : XCGLogDestinationProtocol, DebugPrintable
     }
     
     public func processLogDetails(logDetails: XCGLogDetails) {
-        #if DEBUG
+        
             var extendedDetails: String = ""
             var threadName: String = ""
             threadName=(NSThread.isMainThread() ? "main" : (NSThread.currentThread().name != "" ? NSThread.currentThread().name : String(format:"%p", NSThread.currentThread())))
@@ -45,7 +45,6 @@ public class SLSServerLogDestination : XCGLogDestinationProtocol, DebugPrintable
             
             var data=["date": formattedDate, "lineNumber":String(logDetails.lineNumber), "logLevel": logDetails.logLevel.description(), "fileName":logDetails.fileName, "functionName":logDetails.functionName, "message":logDetails.logMessage, "threadName":threadName]
             sendData(data)
-        #endif
     }
     
     private func sendData(data:[String:String]){
@@ -55,7 +54,6 @@ public class SLSServerLogDestination : XCGLogDestinationProtocol, DebugPrintable
             self.bufferLog=[]
             dispatch_async(XCGLogger.serverQueue){ [weak self] in
                 if let uSelf = self{
-                    XCGLogger.printSafe("\n\nDictionnary: \(jsonDic)\n\n")
                     let json = NSJSONSerialization.dataWithJSONObject(jsonDic, options: NSJSONWritingOptions.allZeros, error: nil)
                     var request = NSMutableURLRequest(URL: NSURL(string: uSelf.url)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: 5)
                     var response: NSURLResponse?
@@ -69,18 +67,6 @@ public class SLSServerLogDestination : XCGLogDestinationProtocol, DebugPrintable
                     // send the request
                     NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
                     
-                    // look at the response
-                    if let httpResponse = response as? NSHTTPURLResponse {
-                        XCGLogger.printSafe("HTTP response: \(httpResponse.statusCode)")
-                    } else {
-                        XCGLogger.printSafe("No HTTP response")
-                    }
-                    if error != nil{
-                        XCGLogger.printSafe("HTTP error: \(error)")
-                    } else {
-                        XCGLogger.printSafe("No HTTP error")
-                    }
-                    
                 }
                 
             }
@@ -90,7 +76,6 @@ public class SLSServerLogDestination : XCGLogDestinationProtocol, DebugPrintable
     }
     
     public func processInternalLogDetails(logDetails: XCGLogDetails) {
-        #if DEBUG
             var extendedDetails: String = ""
             if showLogLevel {
             extendedDetails += "[" + logDetails.logLevel.description() + "] "
@@ -102,7 +87,6 @@ public class SLSServerLogDestination : XCGLogDestinationProtocol, DebugPrintable
             }
             var data=["date": formattedDate, "details": extendedDetails, "functionName": "none", "message":logDetails.logMessage]
             sendData(data)
-        #endif
     }
     
     // MARK: - Misc methods
@@ -140,20 +124,20 @@ extension XCGLogger{
         })
     }
     
-    public func setupServeur(logLevel: LogLevel = .Debug, showThreadName: Bool = false, showLogLevel: Bool = true, showFileNames: Bool = true, showLineNumbers: Bool = true, urlForServer:String, bufferLimit:Int ) {
+    public func setupServeur(logLevel: LogLevel = .Debug, urlForServer:String, bufferLimit:Int ) {
         outputLogLevel = logLevel;
         let standardServerLogDestination: SLSServerLogDestination = SLSServerLogDestination(owner: self, identifier: XCGLogger.serverConstants.logBaseIdentifier, url:urlForServer, bufferLimit: bufferLimit)
         
-        standardServerLogDestination.showThreadName = showThreadName
-        standardServerLogDestination.showLogLevel = showLogLevel
-        standardServerLogDestination.showFileName = showFileNames
-        standardServerLogDestination.showLineNumber = showLineNumbers
+        standardServerLogDestination.showThreadName = true
+        standardServerLogDestination.showLogLevel = true
+        standardServerLogDestination.showFileName = true
+        standardServerLogDestination.showLineNumber = true
         standardServerLogDestination.outputLogLevel = logLevel
         addLogDestination(standardServerLogDestination)
     }
     
-    public class func setupServeur(logLevel: LogLevel = .Debug, showThreadName: Bool = false, showLogLevel: Bool = true, showFileNames: Bool = true, showLineNumbers: Bool = true, urlForServer:String , bufferLimit:Int ) {
-        defaultInstance().setupServeur(logLevel: logLevel, showThreadName: showThreadName, showLogLevel: showLogLevel, showFileNames: showFileNames, showLineNumbers: showLineNumbers, urlForServer: urlForServer,bufferLimit: bufferLimit)
+    public class func setupServeur(logLevel: LogLevel = .Debug, urlForServer:String , bufferLimit:Int ) {
+        defaultInstance().setupServeur(logLevel: logLevel, urlForServer: urlForServer,bufferLimit: bufferLimit)
     }
     
     public class func verboseDBG(@autoclosure(escaping) closure: () -> String?, functionName: String = __FUNCTION__, fileName: String = __FILE__, lineNumber: Int = __LINE__) {

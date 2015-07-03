@@ -34,7 +34,7 @@ public class SLSServerLogDestination : XCGLogDestinationProtocol, DebugPrintable
     }
     
     public func processLogDetails(logDetails: XCGLogDetails) {
-        
+        #if LOG_DEBUG
             var extendedDetails: String = ""
             var threadName: String = ""
             threadName=(NSThread.isMainThread() ? "main" : (NSThread.currentThread().name != "" ? NSThread.currentThread().name : String(format:"%p", NSThread.currentThread())))
@@ -45,6 +45,7 @@ public class SLSServerLogDestination : XCGLogDestinationProtocol, DebugPrintable
             
             var data=["date": formattedDate, "lineNumber":String(logDetails.lineNumber), "logLevel": logDetails.logLevel.description(), "fileName":logDetails.fileName, "functionName":logDetails.functionName, "message":logDetails.logMessage, "threadName":threadName]
             addData(data)
+        #endif
     }
     
     private func addData(data:[String:String]){
@@ -78,6 +79,7 @@ public class SLSServerLogDestination : XCGLogDestinationProtocol, DebugPrintable
     }
     
     public func processInternalLogDetails(logDetails: XCGLogDetails) {
+        #if LOG_DEBUG
             var extendedDetails: String = ""
             if showLogLevel {
             extendedDetails += "[" + logDetails.logLevel.description() + "] "
@@ -89,6 +91,7 @@ public class SLSServerLogDestination : XCGLogDestinationProtocol, DebugPrintable
             }
             var data=["date": formattedDate, "details": extendedDetails, "functionName": "none", "message":logDetails.logMessage]
             addData(data)
+        #endif
     }
     
     // MARK: - Misc methods
@@ -143,13 +146,13 @@ extension XCGLogger{
     }
     
     public class func verboseDBG(@autoclosure(escaping) closure: () -> String?, functionName: String = __FUNCTION__, fileName: String = __FILE__, lineNumber: Int = __LINE__) {
-        #if DEBUG
+        #if LOG_DEBUG
             self.defaultInstance().logln(logLevel: .Verbose, functionName: functionName, fileName: fileName, lineNumber: lineNumber, closure: closure)
         #endif
     }
     
     public func verboseDBG(@autoclosure(escaping) closure: () -> String?, functionName: String = __FUNCTION__, fileName: String = __FILE__, lineNumber: Int = __LINE__) {
-        #if DEBUG
+        #if LOG_DEBUG
             self.logln(logLevel: .Verbose, functionName: functionName, fileName: fileName, lineNumber: lineNumber, closure: closure)
         #endif
     }
@@ -157,14 +160,14 @@ extension XCGLogger{
     
     
     public class func debugDBG(@autoclosure(escaping) closure: () -> String?, functionName: String = __FUNCTION__, fileName: String = __FILE__, lineNumber: Int = __LINE__) {
-        #if DEBUG
+        #if LOG_DEBUG
             self.defaultInstance().logln(logLevel: .Debug, functionName: functionName, fileName: fileName, lineNumber: lineNumber, closure: closure)
         #endif
     }
     
     
     public func debugDBG(@autoclosure(escaping) closure: () -> String?, functionName: String = __FUNCTION__, fileName: String = __FILE__, lineNumber: Int = __LINE__){
-        #if DEBUG
+        #if LOG_DEBUG
             self.logln(logLevel: .Debug, functionName: functionName, fileName: fileName, lineNumber: lineNumber, closure: closure)
         #endif
     }
@@ -172,7 +175,7 @@ extension XCGLogger{
     
 
     public class func infoDBG(@autoclosure(escaping) closure: () -> String?, functionName: String = __FUNCTION__, fileName: String = __FILE__, lineNumber: Int = __LINE__) {
-        #if DEBUG
+        #if LOG_DEBUG
             self.defaultInstance().logln(logLevel: .Info, functionName: functionName, fileName: fileName, lineNumber: lineNumber, closure: closure)
         #endif
     }
@@ -180,7 +183,7 @@ extension XCGLogger{
     
     
     public func infoDBG(@autoclosure(escaping) closure: () -> String?, functionName: String = __FUNCTION__, fileName: String = __FILE__, lineNumber: Int = __LINE__) {
-        #if DEBUG
+        #if LOG_DEBUG
             self.logln(logLevel: .Info, functionName: functionName, fileName: fileName, lineNumber: lineNumber, closure: closure)
         #endif
     }
@@ -188,7 +191,7 @@ extension XCGLogger{
     
     
     public class func warningDBG(@autoclosure(escaping) closure: () -> String?, functionName: String = __FUNCTION__, fileName: String = __FILE__, lineNumber: Int = __LINE__) {
-        #if DEBUG
+        #if LOG_DEBUG
             self.defaultInstance().logln(logLevel: .Warning, functionName: functionName, fileName: fileName, lineNumber: lineNumber, closure: closure)
         #endif
     }
@@ -196,14 +199,14 @@ extension XCGLogger{
     
     
     public func warningDBG(@autoclosure(escaping) closure: () -> String?, functionName: String = __FUNCTION__, fileName: String = __FILE__, lineNumber: Int = __LINE__) {
-        #if DEBUG
+        #if LOG_DEBUG
             self.logln(logLevel: .Warning, functionName: functionName, fileName: fileName, lineNumber: lineNumber, closure: closure)
         #endif
     }
     
     
     public class func errorDBG(@autoclosure(escaping) closure: () -> String?, functionName: String = __FUNCTION__, fileName: String = __FILE__, lineNumber: Int = __LINE__) {
-        #if DEBUG
+        #if LOG_DEBUG
             self.defaultInstance().logln(logLevel: .Error, functionName: functionName, fileName: fileName, lineNumber: lineNumber, closure: closure)
         #endif
     }
@@ -215,37 +218,37 @@ extension XCGLogger{
     }
     
     public func errorDBG(@autoclosure(escaping) closure: () -> String?, functionName: String = __FUNCTION__, fileName: String = __FILE__, lineNumber: Int = __LINE__) {
-        #if DEBUG
+        #if LOG_DEBUG
             self.logln(logLevel: .Error, functionName: functionName, fileName: fileName, lineNumber: lineNumber, closure: closure)
         #endif
     }
     
     public func errorDBG(functionName: String = __FUNCTION__, fileName: String = __FILE__, lineNumber: Int = __LINE__, closure: () -> String?) {
-        #if DEBUG
+        #if LOG_DEBUG
             self.logln(logLevel: .Error, functionName: functionName, fileName: fileName, lineNumber: lineNumber, closure: closure)
         #endif
     }
     
     public class func severeDBG(@autoclosure(escaping) closure: () -> String?, functionName: String = __FUNCTION__, fileName: String = __FILE__, lineNumber: Int = __LINE__) {
-        #if DEBUG
+        #if LOG_DEBUG
             self.defaultInstance().logln(logLevel: .Severe, functionName: functionName, fileName: fileName, lineNumber: lineNumber, closure: closure)
         #endif
     }
     
     public class func severeDBG(functionName: String = __FUNCTION__, fileName: String = __FILE__, lineNumber: Int = __LINE__, closure: () -> String?) {
-        #if DEBUG
+        #if LOG_DEBUG
             self.defaultInstance().logln(logLevel: .Severe, functionName: functionName, fileName: fileName, lineNumber: lineNumber, closure: closure)
         #endif
     }
     
     public func severeDBG(@autoclosure(escaping) closure: () -> String?, functionName: String = __FUNCTION__, fileName: String = __FILE__, lineNumber: Int = __LINE__) {
-        #if DEBUG
+        #if LOG_DEBUG
             self.logln(logLevel: .Severe, functionName: functionName, fileName: fileName, lineNumber: lineNumber, closure: closure)
         #endif
     }
     
     public func severeDBG(functionName: String = __FUNCTION__, fileName: String = __FILE__, lineNumber: Int = __LINE__, closure: () -> String?) {
-        #if DEBUG
+        #if LOG_DEBUG
             self.logln(logLevel: .Severe, functionName: functionName, fileName: fileName, lineNumber: lineNumber, closure: closure)
         #endif
     }

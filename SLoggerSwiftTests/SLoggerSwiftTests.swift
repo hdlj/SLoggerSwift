@@ -62,7 +62,9 @@ class SLoggerSwiftTests: XCTestCase {
         }
         
         log.debug("message one")
+        #if LOG_DEBUG
         XCTAssert(logServerDestination.bufferLog.count == 1, "message added to the buffer correctly")
+        #endif
     }
     
     func testBufferSizeForServerReached(){

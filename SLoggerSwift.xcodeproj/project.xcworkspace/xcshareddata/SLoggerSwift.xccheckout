@@ -14,11 +14,11 @@
 		<string>https://github.com/hdlj/SLoggerSwift.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>SLoggerSwift/SLoggerSwift.xcodeproj</string>
+	<string>SLoggerSwift.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>04B30C32883D1742C44098368BB49C5A342CFB00</key>
-		<string>../../..</string>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/hdlj/SLoggerSwift.git</string>

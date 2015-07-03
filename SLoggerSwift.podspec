@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SLoggerSwift"
-  s.version      = "1.0.1"
+  s.version      = "1.1.0"
   s.summary      = "logging framework based on XCGLogger developed by Dave Wood, Cerebral Gardens"
 
   s.description  = <<-DESC
@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios
   s.platform     = :ios, "8.3"
 
-  s.source       = { :git => "https://github.com/hdlj/SLoggerSwift.git", :tag => "version_1.0.1" }
+  s.source       = { :git => "https://github.com/hdlj/SLoggerSwift.git", :tag => "version_1.1.0" }
 
   s.source_files  = "universal-framework/SLoggerSwift.framework/*"
 

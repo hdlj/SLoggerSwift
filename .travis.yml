@@ -6,5 +6,5 @@ before_install:
 - if brew outdated | grep -qx xctool; then brew upgrade xctool; fi
 
 script: 
-- xctool clean build -project SLoggerSwift.xcodeproj -scheme SLoggerSwift
+- xctool clean build -project SLoggerSwift.xcodeproj -scheme SLoggerSwift -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
 
